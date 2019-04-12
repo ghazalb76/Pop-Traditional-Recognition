@@ -1,5 +1,12 @@
 import csv
 
+class p():
+    # this.name = None
+    def __init__(self, stri):
+        self.name = stri
+    children = []
+    v = None
+    
 def func(dic, jomle, data):
     flag = True
     for w in dic:
