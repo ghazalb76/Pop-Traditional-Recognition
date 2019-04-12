@@ -6,7 +6,7 @@ class p():
         self.name = stri
     children = []
     v = None
-    
+
 def func(dic, jomle, data):
     flag = True
     for w in dic:
@@ -63,24 +63,37 @@ for r in liste:
     dic[r] = []
 
 
-flag = True
+print(dic)
+objects = []
+root = p('root')
+root.v = Node('root')
+for r in liste:
+    child = p(r)
+    objects.append(child)
+    root.children.append(r)
+    child.v = Node(r, parent=root.v)
+
+    
+print(RenderTree(parent.v))
+i = 0
 for w in dic:
-    for i in range(jomle.find(w)+len(w), len(jomle)+1):
-        sub = jomle[jomle.find(w)+len(w):i]
-        if any(sub in subl for subl in data) and sub is not '':
-            dic[w].append(sub)
+    if w not in liste:
+        parent = p(w) 
+        parent.v = w
+    else:
+        parent = objects[i]
+    i = i+1
+    for child in dic[w]:
+        parent.children.append(child)
+        child_obj = p(child)
+        if w not in liste:
+            child_obj.v = Node(child, parent=parent.v)
+            print('parent.v:   ', parent.v)
+            print('child_obj.v:  ', child_obj.v)
+            print(child)
+        else:
+            child_obj.v = Node(child, parent=parent.v)
 
-for k in list(dic):
-    for x in dic[k]:
-        if x not in dic and x is not '':
-            dic[x] = []
-
-while(flag):
-    flag = func(dic, jomle, data)
-w, h =10, 10
-final = [[0 for x in range(w)] for y in range(h)] 
-
-final.append("aa")
 print(final)
 
 print(dic)
