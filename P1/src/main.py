@@ -1,6 +1,7 @@
 
 import csv
-from anytree import Node, RenderTree, PreOrderIter, LevelOrderGroupIter, PostOrderIter
+from anytree import Node, RenderTree, PreOrderIter
+
 
 class node():
     def __init__(self, name, parent, index):
@@ -10,13 +11,13 @@ class node():
         self.children = []
         self.v = None
 
+
 #######################################################################################################
 # Read input
-f=open("../in/in_5.txt", encoding="utf8")
+f=open("../in/in_4.txt", encoding="utf8")
 if f.mode == 'r':
     contents =f.read()
 contents = contents.split()
-
 
 # Read dictionary
 with open("../in/Entries.csv", encoding="utf8") as f:
@@ -32,17 +33,20 @@ with open("../in/Entries.csv", encoding="utf8") as f:
                 phonetics.append(dWord[0])
                 break
 
-jomle = ''
-for t in phonetics:
-    jomle+=t
-print(jomle)
+sentence = ''
+for word in phonetics:
+    sentence+=word
+print(sentence)
+
+# Find first words
 liste = []
-for i in range(0, len(jomle)+1):
-    sub = jomle[0:i]
+for i in range(0, len(sentence)+1):
+    sub = sentence[0:i]
     if len(sub) != 1 and any(sub in subl for subl in data) and sub is not '':
         liste.append(sub)
 
 ############################################################################################################
+# Make tree for first words
 root = node('root', None, -1)
 word_obj = []
 root.v = Node('root')
@@ -52,40 +56,36 @@ for r in liste:
     word.v = Node(r,root.v)
 
 
-
-
+# Find all the children of all the nodes, make object for them and set them as the child of node
 for word in word_obj:
     l = word.index+len(word.name)
-    for i in range(l,len(jomle)+1):
-        sub = jomle[l:i]
+    for i in range(l,len(sentence)+1):
+        sub = sentence[l:i]
         if len(sub) != 1 and any(sub in subl for subl in data) and sub is not '':
             w = node(sub, word, l)
             word.children.append(w)
             word_obj.append(w)
 
-
+# Make tree depend on parent and child relations
 for word in word_obj:
     for child in word.children:
         child.v = Node(child.name, word.v)
 
 
-
-
- 
-
 #####################################################################################
 for pre, fill, node in RenderTree(root.v):
     print("%s%s" % (pre, node.name))
 
+# Find all the pathes of the tree which their end word is equal to the end of the sentence, change their phonetics to persian and show them
 
 post = [node.name for node in PreOrderIter(root.v)]
 for k in post:
-    if jomle.find(k)+len(k) == len(jomle):
+    if sentence.find(k)+len(k) == len(sentence):
         r = k
         break
 
 final_list = []
-f=open("../out/out_5.txt", 'w', encoding="utf8")
+f=open("../out/out_4.txt", 'w', encoding="utf8")
 flag = False
 for pre, fill, node in RenderTree(root.v):
     my_list = []
