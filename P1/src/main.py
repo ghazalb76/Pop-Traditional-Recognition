@@ -101,7 +101,6 @@ for pre, fill, node in RenderTree(root.v):
         for word in my_list:
             for dWord in data:
                 if word == dWord[0]:
-                    # print(word,'------------->',dWord)
                     de_phonetics.append(dWord[1])
                     count +=1
                     break
@@ -114,8 +113,4 @@ for pre, fill, node in RenderTree(root.v):
                 f.write(stri)
         
             f.write('\n')
-            
-        # print(de_phonetics)
-if any('mAd' in subl for subl in data):
-    print("YESSSSSSSSSSSSSSSSSSSS")
 
