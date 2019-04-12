@@ -12,7 +12,7 @@ class node():
 
 #######################################################################################################
 # Read input
-f=open("../in/in_4.txt", encoding="utf8")
+f=open("../in/in_5.txt", encoding="utf8")
 if f.mode == 'r':
     contents =f.read()
 contents = contents.split()
@@ -85,7 +85,7 @@ for k in post:
         break
 
 final_list = []
-f=open("../out/out_1.txt", 'w', encoding="utf8")
+f=open("../out/out_5.txt", 'w', encoding="utf8")
 flag = False
 for pre, fill, node in RenderTree(root.v):
     my_list = []
