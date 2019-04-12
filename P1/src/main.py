@@ -1,34 +1,17 @@
 import csv
+from anytree import Node, RenderTree, PreOrderIter, LevelOrderGroupIter, PostOrderIter
 
-class p():
-    # this.name = None
-    def __init__(self, stri):
-        self.name = stri
-    children = []
-    v = None
+class node():
+    def __init__(self, name, parent, index):
+        self.name = name
+        self.parent = parent
+        self.index = index
+        self.children = []
+        self.v = None
 
-def func(dic, jomle, data):
-    flag = True
-    for w in dic:
-        for i in range(jomle.find(w)+len(w), len(jomle)+1):
-            sub = jomle[jomle.find(w)+len(w):i]
-            if jomle.find(w)+len(w) == len(jomle):
-                flag = False
-            # print(w, ':', jomle.find(w)+len(w), '----->', i, '    Sub Is ',sub)
-            if any(sub in subl for subl in data) and sub not in dic[w] and sub is not '':
-                dic[w].append(sub)
-
-
-
-
-    for k in list(dic):
-        for x in dic[k]:
-            if x not in dic and x is not '':
-                dic[x] = []
-    return flag
-
+#######################################################################################################
 # Read input
-f=open("in_4.txt", encoding="utf8")
+f=open("in_5.txt", encoding="utf8")
 if f.mode == 'r':
     contents =f.read()
 contents = contents.split()
@@ -55,42 +38,82 @@ print(jomle)
 liste = []
 for i in range(0, len(jomle)+1):
     sub = jomle[0:i]
-    if any(sub in subl for subl in data) and sub is not '':
+    if len(sub) != 1 and any(sub in subl for subl in data) and sub is not '':
         liste.append(sub)
 
-dic = {}
-for r in liste:
-    dic[r] = []
-
-
-print(dic)
-objects = []
-root = p('root')
+############################################################################################################
+root = node('root', None, -1)
+word_obj = []
 root.v = Node('root')
 for r in liste:
-    child = p(r)
-    objects.append(child)
-    root.children.append(r)
-    child.v = Node(r, parent=root.v)
+    word = node(r, root, 0)
+    word_obj.append(word)
+    word.v = Node(r,root.v)
 
-    
-flag = True
-i = 0
-for w in words_obj:
-    parent = w
-    print()
-    for i in range(jomle.find(w.name)+len(w.name), len(jomle)+1):
-        sub = jomle[jomle.find(w.name)+len(w.name):i]
-        if any(sub in subl for subl in data)  and sub is not '':
-            print('w.name:  ',w.name,'    ','sub', sub)
-        if len(sub) != 1 and any(sub in subl for subl in data) and flag and sub is not '':
-            parent.children.append(sub)
-            child_obj = p(sub)
-            words_obj.append(child_obj)
-            child_obj.v = Node(sub, parent=parent.v)
-    for pre, fill, node in RenderTree(root.v):
-        print("%s%s" % (pre, node.name))
-    if jomle.find(w.name)+len(w.name) == len(jomle) :
+
+
+
+for word in word_obj:
+    l = word.index+len(word.name)
+    for i in range(l,len(jomle)+1):
+        sub = jomle[l:i]
+        if len(sub) != 1 and any(sub in subl for subl in data) and sub is not '':
+            w = node(sub, word, l)
+            word.children.append(w)
+            word_obj.append(w)
+
+
+for word in word_obj:
+    for child in word.children:
+        child.v = Node(child.name, word.v)
+
+
+
+
+ 
+
+#####################################################################################
+for pre, fill, node in RenderTree(root.v):
+    print("%s%s" % (pre, node.name))
+
+
+post = [node.name for node in PreOrderIter(root.v)]
+for k in post:
+    if jomle.find(k)+len(k) == len(jomle):
+        r = k
         break
 
-print(dic)
+final_list = []
+f=open("out_1.txt", 'w', encoding="utf8")
+flag = False
+for pre, fill, node in RenderTree(root.v):
+    my_list = []
+    if(node.name == r):
+        node_p = node
+        while(node_p.name != 'root'):
+            my_list.append(node_p.name)
+            node_p = node_p.parent
+        my_list.reverse()
+        print(my_list)
+        de_phonetics = []
+        count = 0
+        for word in my_list:
+            for dWord in data:
+                if word == dWord[0]:
+                    # print(word,'------------->',dWord)
+                    de_phonetics.append(dWord[1])
+                    count +=1
+                    break
+  
+        if count >= len(my_list):
+            print(de_phonetics)
+            for de in de_phonetics:
+                stri = ''
+                stri += '['+de+']'
+                f.write(stri)
+        
+            f.write('\n')
+            
+        # print(de_phonetics)
+if any('mAd' in subl for subl in data):
+    print("YESSSSSSSSSSSSSSSSSSSS")
