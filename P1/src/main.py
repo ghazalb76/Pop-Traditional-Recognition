@@ -1,8 +1,8 @@
-
 import csv
 from anytree import Node, RenderTree, PreOrderIter
 
 
+# A class for every word of the sentence that is in dictionary to save some informations about it as below
 class node():
     def __init__(self, name, parent, index):
         self.name = name
@@ -12,9 +12,9 @@ class node():
         self.v = None
 
 
-#######################################################################################################
+################################     Read needed files    ############################################
 # Read input
-f=open("../in/in_4.txt", encoding="utf8")
+f=open("../in/in_2.txt", encoding="utf8")
 if f.mode == 'r':
     contents =f.read()
 contents = contents.split()
@@ -27,25 +27,29 @@ with open("../in/Entries.csv", encoding="utf8") as f:
     for row in reader:
         data.append(row)
     phonetics = []
+    # Find phonetics of persian words from dictionary and save them in phonetics list
     for word in contents:
         for dWord in data:
             if word == dWord[1]:
                 phonetics.append(dWord[0])
                 break
 
+########################################################################################################
+#######################################   Find words ###################################################
+
+# Stick all the phonetics together
 sentence = ''
 for word in phonetics:
     sentence+=word
 print(sentence)
 
-# Find first words
+# Find first words that have meaning based on given dictionary
 liste = []
 for i in range(0, len(sentence)+1):
     sub = sentence[0:i]
     if len(sub) != 1 and any(sub in subl for subl in data) and sub is not '':
         liste.append(sub)
 
-############################################################################################################
 # Make tree for first words
 root = node('root', None, -1)
 word_obj = []
@@ -72,12 +76,13 @@ for word in word_obj:
         child.v = Node(child.name, word.v)
 
 
-#####################################################################################
+# Print final tree
 for pre, fill, node in RenderTree(root.v):
     print("%s%s" % (pre, node.name))
+########################################################################################################
+#######################################    Write part   ################################################
 
 # Find all the pathes of the tree which their end word is equal to the end of the sentence, change their phonetics to persian and show them
-
 post = [node.name for node in PreOrderIter(root.v)]
 for k in post:
     if sentence.find(k)+len(k) == len(sentence):
@@ -85,7 +90,7 @@ for k in post:
         break
 
 final_list = []
-f=open("../out/out_4.txt", 'w', encoding="utf8")
+f=open("../out/out_2.txt", 'w', encoding="utf8")
 flag = False
 for pre, fill, node in RenderTree(root.v):
     my_list = []
@@ -107,9 +112,9 @@ for pre, fill, node in RenderTree(root.v):
   
         if count >= len(my_list):
             print(de_phonetics)
-            for de in de_phonetics:
+            for persia in de_phonetics:
                 stri = ''
-                stri += '['+de+']'
+                stri += '['+persia+']'
                 f.write(stri)
         
             f.write('\n')
