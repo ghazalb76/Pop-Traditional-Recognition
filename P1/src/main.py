@@ -74,26 +74,23 @@ for r in liste:
     child.v = Node(r, parent=root.v)
 
     
-print(RenderTree(parent.v))
+flag = True
 i = 0
-for w in dic:
-    if w not in liste:
-        parent = p(w) 
-        parent.v = w
-    else:
-        parent = objects[i]
-    i = i+1
-    for child in dic[w]:
-        parent.children.append(child)
-        child_obj = p(child)
-        if w not in liste:
-            child_obj.v = Node(child, parent=parent.v)
-            print('parent.v:   ', parent.v)
-            print('child_obj.v:  ', child_obj.v)
-            print(child)
-        else:
-            child_obj.v = Node(child, parent=parent.v)
-
-print(final)
+for w in words_obj:
+    parent = w
+    print()
+    for i in range(jomle.find(w.name)+len(w.name), len(jomle)+1):
+        sub = jomle[jomle.find(w.name)+len(w.name):i]
+        if any(sub in subl for subl in data)  and sub is not '':
+            print('w.name:  ',w.name,'    ','sub', sub)
+        if len(sub) != 1 and any(sub in subl for subl in data) and flag and sub is not '':
+            parent.children.append(sub)
+            child_obj = p(sub)
+            words_obj.append(child_obj)
+            child_obj.v = Node(sub, parent=parent.v)
+    for pre, fill, node in RenderTree(root.v):
+        print("%s%s" % (pre, node.name))
+    if jomle.find(w.name)+len(w.name) == len(jomle) :
+        break
 
 print(dic)
