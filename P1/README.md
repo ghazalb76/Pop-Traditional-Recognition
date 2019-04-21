@@ -1,5 +1,5 @@
 All needed explanations are in main.py as comments.
-To run:
+To run :
 ```
 python main.py
 ```
