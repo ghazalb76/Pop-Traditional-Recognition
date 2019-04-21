@@ -12,7 +12,7 @@ class node():
         self.v = None
 
 
-################################     Read needed files    ############################################
+################################       Read needed files    ############################################
 # Read input
 f=open("../in/in_2.txt", encoding="utf8")
 if f.mode == 'r':
