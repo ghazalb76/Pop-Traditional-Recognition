@@ -118,4 +118,3 @@ for pre, fill, node in RenderTree(root.v):
                 f.write(stri)
         
             f.write('\n')
-
