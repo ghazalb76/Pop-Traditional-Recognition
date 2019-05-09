@@ -101,8 +101,6 @@ def generate_cloud(my_wordCloud):
 pop_words = pop_freq()
 traditional_words = traditional_freq()
 
-# prepare_cloud_text(pop_words)
-# prepare_cloud_text(traditional_words)
 
 pop_words_copy = pop_words
 traditional_words_copy = traditional_words
@@ -111,5 +109,55 @@ pop_words_copy = pop_words
 traditional_words_copy = traditional_words
 traditional_diff_pop_words = diff_words(traditional_words_copy, pop_words_copy)
 
+''' pop without stopword '''
+# prepare_cloud_text(pop_words)
+''' traditional without stopword '''
+# prepare_cloud_text(traditional_words)
+''' pop diff traditional without stopwords'''
 # prepare_cloud_text(pop_diff_traditional_words)
+''' traditional diff pop without stopwords'''
+# prepare_cloud_text(traditional_diff_pop_words)
+
+
+#---------------------------- StopWords ----------------------#
+stopword_list = []
+unImportant = open("stopwords.txt", 'r', encoding="utf-8")
+
+
+for line in unImportant.readlines():
+        stopword_list.append(line)
+for sentence in stopword_list:
+        stopword_list = sentence.split(' ')
+print(stopword_list)
+
+#----------- pop ----------#
+pop_words_freeStop = []
+for word in pop_words:
+        if word not in stopword_list:
+                pop_words_freeStop.append(word)
+
+#-------- traditonal -------#
+traditional_words_freeStop = []
+for word in traditional_words:
+        if word not in stopword_list:
+                traditional_words_freeStop.append(word)
+#--------------------------------------------------------------#
+
+
+
+
+pop_words_freeStop_copy = pop_words_freeStop
+traditional_words_freeStop_copy = traditional_words_freeStop
+pop_diff_traditional_words = diff_words(pop_words_freeStop_copy, traditional_words_freeStop_copy)
+pop_words_freeStop_copy = pop_words_freeStop
+traditional_words_freeStop_copy = traditional_words_freeStop
+traditional_diff_pop_words = diff_words(traditional_words_freeStop_copy, pop_words_freeStop_copy)
+
+''' pop without stopword '''
+# prepare_cloud_text(pop_words_freeStop)
+''' traditional without stopword '''
+# prepare_cloud_text(traditional_words_freeStop)
+''' pop diff traditional without stopwords'''
+# prepare_cloud_text(pop_diff_traditional_words)
+''' traditional diff pop without stopwords'''
 # prepare_cloud_text(traditional_diff_pop_words)
