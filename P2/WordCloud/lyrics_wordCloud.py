@@ -1,6 +1,8 @@
 
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
+import arabic_reshaper
+from bidi.algorithm import get_display
 
 def pop_freq():
     pop_text = open("../ProcessedData/out_pop_lyrics.txt", 'r', encoding="utf-8")
@@ -56,19 +58,25 @@ def traditional_freq():
     for word in traditional_words_freq:
         traditional_words_freq[word] /= (len(traditional_words)/10000)
 
+    return traditional_words
     # for word in traditional_words_freq:
     #     print(traditional_words_freq[word], ' : ', word)
 
 
-def pop_cloud(pop_words):
-    pop_cloud_text = ''
-    for word in pop_words:
-        pop_cloud_text += ' '
-        pop_cloud_text += word
-    print(pop_cloud_text)
-    generate_cloud(pop_cloud_text)
+def prepare_cloud_text(words):
+    cloud_text = ''
+    for word in words:
+        cloud_text += ' '
+        cloud_text += word
+    print(cloud_text)
+    reshaped_text = reshape_text(cloud_text)
+    generate_cloud(reshaped_text)
     
 
+def reshape_text(text):
+    reshaped_text = arabic_reshaper.reshape(text)
+    reshaped_text = get_display(reshaped_text)
+    return reshaped_text
 
 def generate_cloud(my_wordCloud):
     print('umad too')
@@ -76,10 +84,14 @@ def generate_cloud(my_wordCloud):
     popWordCloud.generate(my_wordCloud)
     plt.imshow(popWordCloud)
     plt.axis("off")
+    print("in tamome")
 
     plt.show()
+    print("kollan az in biroon bia")
+
 
 pop_words = pop_freq()
-traditional_freq()
+traditional_words = traditional_freq()
 
-pop_cloud(pop_words)
+# prepare_cloud_text(pop_words)
+prepare_cloud_text(traditional_words)
