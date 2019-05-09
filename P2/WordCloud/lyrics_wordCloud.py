@@ -62,6 +62,14 @@ def traditional_freq():
     # for word in traditional_words_freq:
     #     print(traditional_words_freq[word], ' : ', word)
 
+def diff_words(word_list1, word_list2):
+    for word in word_list1:
+        if word in word_list2:
+            word_list1.remove(word)
+            word_list2.remove(word)
+    print(len(word_list1))
+    return word_list1
+
 
 def prepare_cloud_text(words):
     cloud_text = ''
@@ -94,4 +102,14 @@ pop_words = pop_freq()
 traditional_words = traditional_freq()
 
 # prepare_cloud_text(pop_words)
-prepare_cloud_text(traditional_words)
+# prepare_cloud_text(traditional_words)
+
+pop_words_copy = pop_words
+traditional_words_copy = traditional_words
+pop_diff_traditional_words = diff_words(pop_words_copy, traditional_words_copy)
+pop_words_copy = pop_words
+traditional_words_copy = traditional_words
+traditional_diff_pop_words = diff_words(traditional_words_copy, pop_words_copy)
+
+# prepare_cloud_text(pop_diff_traditional_words)
+# prepare_cloud_text(traditional_diff_pop_words)
