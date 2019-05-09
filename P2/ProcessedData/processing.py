@@ -5,15 +5,15 @@ import io
 
 
 normalizer = Normalizer()
-unImportant_list = []
-unImportant = open("unimportant.txt", 'r', encoding="utf-8")
+# unImportant_list = []
+# unImportant = open("unimportant.txt", 'r', encoding="utf-8")
 
 
-for line in unImportant.readlines():
-        unImportant_list.append(line)
-for sentence in unImportant_list:
-        unImportant_list = sentence.split(' ')
-print(unImportant_list)
+# for line in unImportant.readlines():
+#         unImportant_list.append(line)
+# for sentence in unImportant_list:
+#         unImportant_list = sentence.split(' ')
+# print(unImportant_list)
 
 def pop_processing():
         all_texts = open("out_pop_lyrics.txt", 'w', encoding="utf-8")
@@ -27,13 +27,13 @@ def pop_processing():
         pop_text = normalizer.normalize(pop_text)
         pop_text = word_tokenize(pop_text)
 
-        pop_txt = []
+        # pop_txt = []
+        # for word in pop_text:
+        #         if word not in unImportant_list:
+        #                 pop_txt.append(word)
+
+
         for word in pop_text:
-                if word not in unImportant_list:
-                        pop_txt.append(word)
-
-
-        for word in pop_txt:
                 word += ' '
                 all_texts.write(word)
 
@@ -52,13 +52,13 @@ def traditional_processing():
         traditional_text = word_tokenize(traditional_text)
         print(len(traditional_text))
 
-        traditional_txt = []
-        for word in traditional_text:
-                if word not in unImportant_list:
-                        traditional_txt.append(word)
+        # traditional_txt = []
+        # for word in traditional_text:
+        #         if word not in unImportant_list:
+        #                 traditional_txt.append(word)
 
-        print(len(traditional_txt))
-        for word in traditional_txt:
+        # print(len(traditional_txt))
+        for word in traditional_text:
                 word += ' '
                 all_texts.write(word)
 
