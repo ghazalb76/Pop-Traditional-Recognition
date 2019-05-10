@@ -10,13 +10,13 @@ normalize() and worde_tokenize()
 ##Here is what hazm does for us
 
 > normalizer = Normalizer()<br>
-> normalizer.normalize
-('اصلاح نويسه ها و استفاده از نیم‌فاصله پردازش را آسان مي كند')
+> normalizer.normalize<br>
+('اصلاح نويسه ها و استفاده از نیم‌فاصله پردازش را آسان مي كند')<br>
 'اصلاح نویسه‌ها و استفاده از نیم‌فاصله پردازش را آسان می‌کند'
 
-> word_tokenize
-('ولی برای پردازش، جدا بهتر نیست؟')
-['ولی', 'برای', 'پردازش', '،', 'جدا', 'بهتر', 'نیست', '؟']
+> word_tokenize<br>
+('ولی برای پردازش، جدا بهتر نیست؟')<br>
+['ولی', 'برای', 'پردازش', '،', 'جدا', 'بهتر', 'نیست', '؟']<br>
 
 #Writing processed data
 After processing,each data(pop and traditional) has been stored in .txt files base on its label.
