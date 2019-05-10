@@ -3,7 +3,7 @@
 The procedure of implementing each part is in folders and if you refer them you can completely understand what I have done for them and 
 how each part works.
 
-#To run:
+##To run:
 If you want to run first of all you need to install the dependencies
 Open your command line in windows and type each of the lines one by one:
 ```python
