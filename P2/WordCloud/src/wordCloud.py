@@ -97,13 +97,13 @@ pop_words_copy = pop_words
 traditional_words_copy = traditional_words
 traditional_diff_pop_words = diff_words(traditional_words_copy, pop_words_copy)
 
-''' pop without stopword '''
+''' pop with stopword '''
 # prepare_cloud_text(pop_words)
-''' traditional without stopword '''
+''' traditional with stopword '''
 # prepare_cloud_text(traditional_words)
-''' pop diff traditional without stopwords'''
+''' pop diff traditional with stopwords'''
 # prepare_cloud_text(pop_diff_traditional_words)
-''' traditional diff pop without stopwords'''
+''' traditional diff pop with stopwords'''
 # prepare_cloud_text(traditional_diff_pop_words)
 
 
