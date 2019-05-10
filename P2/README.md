@@ -34,4 +34,4 @@ Commented parts are :
 
 and
 
-1[](comment2.JPG)
+![](comment2.JPG)
