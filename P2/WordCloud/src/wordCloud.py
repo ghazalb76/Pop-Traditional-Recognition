@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 import arabic_reshaper
@@ -146,4 +145,4 @@ traditional_diff_pop_words = diff_words(traditional_words_freeStop_copy, pop_wor
 ''' pop diff traditional without stopwords'''
 # prepare_cloud_text(pop_diff_traditional_words)
 ''' traditional diff pop without stopwords'''
-prepare_cloud_text(traditional_diff_pop_words)
+# prepare_cloud_text(traditional_diff_pop_words)
