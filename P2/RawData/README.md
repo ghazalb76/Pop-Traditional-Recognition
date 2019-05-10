@@ -1,5 +1,5 @@
 #Why pop and traditional recognition?
-I love music and listen to all types of it.I'm guitarist
+I love music and listen to all types of it. I'm guitarist
 so I need to listen to music and analyze them more than anyone.
 Music is in every moment of my life and everything about it is nice, interesting 
 and important for me and my lessons are not exception.Briefly, recognizing different 
@@ -13,11 +13,11 @@ I have used [shazam](https://www.shazam.com/gb) for all the lyrics.
 <br>
 
 #Way of data collection:
-As i told before shazam is good for lyrics and I have just copied the lyrics from this web site to
-.txt format files.
+As I told before shazam is good for lyrics and I have just copied the lyrics from this web site to
+.txt format files
 <br>
 
 #Wanna add your data to my project?
 It is so easy you just need to make a new .txt file , copy the lyric of your favourite music and put it in 
-correct directory.
+correct directory or you can use a web crawler for extracting large data from a web site.
 <br>
