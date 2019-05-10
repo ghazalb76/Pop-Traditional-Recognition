@@ -6,7 +6,7 @@ import glob
 normalizer = Normalizer()
 
 def pop_processing():
-        all_texts = open("pop/pop.txt", 'w', encoding="utf-8")
+        all_texts = open("../pop/pop.txt", 'w', encoding="utf-8")
         pop_text = ''
 
         for pop_lyric_file in glob.glob("../../Data/pop/*.txt"):
@@ -24,7 +24,7 @@ def pop_processing():
 
 
 def traditional_processing():
-        all_texts = open("traditional/traditional.txt", 'w', encoding="utf-8")
+        all_texts = open("../traditional/traditional.txt", 'w', encoding="utf-8")
         traditional_text = ''
 
         for traditional_lyric_file in glob.glob("../../Data/traditional/*.txt"):
