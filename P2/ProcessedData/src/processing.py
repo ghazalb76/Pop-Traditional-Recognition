@@ -1,19 +1,9 @@
 # -*- coding: utf-8 -*-
 from hazm import *
 import glob
-import io
 
 
 normalizer = Normalizer()
-# unImportant_list = []
-# unImportant = open("unimportant.txt", 'r', encoding="utf-8")
-
-
-# for line in unImportant.readlines():
-#         unImportant_list.append(line)
-# for sentence in unImportant_list:
-#         unImportant_list = sentence.split(' ')
-# print(unImportant_list)
 
 def pop_processing():
         all_texts = open("pop.txt", 'w', encoding="utf-8")
@@ -27,37 +17,24 @@ def pop_processing():
         pop_text = normalizer.normalize(pop_text)
         pop_text = word_tokenize(pop_text)
 
-        # pop_txt = []
-        # for word in pop_text:
-        #         if word not in unImportant_list:
-        #                 pop_txt.append(word)
-
-
         for word in pop_text:
                 word += ' '
                 all_texts.write(word)
 
 
 
-
 def traditional_processing():
         all_texts = open("traditional.txt", 'w', encoding="utf-8")
-
         traditional_text = ''
+
         for traditional_lyric_file in glob.glob("../../Data/traditional/*.txt"):
                 txt_file = open(traditional_lyric_file, 'r', encoding="utf-8")
                 for line in txt_file.readlines():
                         traditional_text += line
+
         traditional_text = normalizer.normalize(traditional_text)
         traditional_text = word_tokenize(traditional_text)
-        print(len(traditional_text))
 
-        # traditional_txt = []
-        # for word in traditional_text:
-        #         if word not in unImportant_list:
-        #                 traditional_txt.append(word)
-
-        # print(len(traditional_txt))
         for word in traditional_text:
                 word += ' '
                 all_texts.write(word)
