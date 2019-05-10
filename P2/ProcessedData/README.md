@@ -9,13 +9,13 @@ normalize() and worde_tokenize()
 
 ##Here is what hazm does for us
 
-> normalizer = Normalizer()
+> normalizer = Normalizer()<br>
 > normalizer.normalize
 ('اصلاح نويسه ها و استفاده از نیم‌فاصله پردازش را آسان مي كند')
 'اصلاح نویسه‌ها و استفاده از نیم‌فاصله پردازش را آسان می‌کند'
 
-['ما هم برای وصل کردن آمدیم!', 'ولی برای پردازش، جدا بهتر نیست؟']
-> word_tokenize('ولی برای پردازش، جدا بهتر نیست؟')
+> word_tokenize
+('ولی برای پردازش، جدا بهتر نیست؟')
 ['ولی', 'برای', 'پردازش', '،', 'جدا', 'بهتر', 'نیست', '؟']
 
 #Writing processed data
