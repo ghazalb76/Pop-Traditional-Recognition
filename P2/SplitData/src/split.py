@@ -1,15 +1,13 @@
 import numpy as np
-
-
 import glob
 from shutil import copyfile
+
 
 dirpath_pop = ["../../ProcessedData/pop\*.txt"]
 dirpath_traditional = ["../../ProcessedData/traditional\*.txt"]
 
 # Select all the pathes
 files_path = []
-
 pop_files_path = []
 for path in dirpath_pop :
     for filename in glob.glob(path):
@@ -33,21 +31,20 @@ while (len(random_pathes) < random_num):
 # Seperate train and test
 test_pop_counter = 1
 test_traditional_counter = 1
-for i in random_pathes:
-        if i in pop_files_path:
+for test_path in random_pathes:
+        if test_path in pop_files_path:
                 pop_dest = "../test/pop/"+str(test_pop_counter)+".txt"
-                copyfile(i, pop_dest)
+                copyfile(test_path, pop_dest)
                 test_pop_counter += 1
         else:
                 traditional_dest = "../test/traditional/"+str(test_traditional_counter)+".txt"
-                copyfile(i, traditional_dest)
+                copyfile(test_path, traditional_dest)
                 test_traditional_counter += 1
-        files_path.remove(i)
+        files_path.remove(test_path)
 
 # Copy train files from Process part to split
 test_pop_counter = 1
 test_traditional_counter = 1
-# print(files_path)
 for train_path in files_path:
         print(train_path)
         if train_path in pop_files_path:
@@ -58,4 +55,3 @@ for train_path in files_path:
                 traditional_dest = "../train/traditional/"+str(test_traditional_counter)+".txt"
                 copyfile(train_path, traditional_dest)
                 test_traditional_counter += 1
-
