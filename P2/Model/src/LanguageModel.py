@@ -21,8 +21,15 @@ def ngram_words(text, n):
     fdist = nltk.FreqDist(n_gram)
     n_gram = []
     for t in fdist:
-        n_gram.append(t[0])
+        if n == 1:
+            n_gram.append(t[0])
+        elif n == 2:
+            n_gram.append(t[0]+' '+t[1])
+        elif n == 3:
+            n_gram.append(t[0]+' '+t[1]+' '+t[2])
     return n_gram
 
 pop_manager = Pop_manager()
-one_gram = ngram_words(pop_manager.pop_text, 1)
+one_gram_list = ngram_words(pop_manager.pop_text, 1)
+two_gram_list = ngram_words(pop_manager.pop_text, 2)
+three_gram_list = ngram_words(pop_manager.pop_text, 3)
