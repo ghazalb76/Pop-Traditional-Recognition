@@ -16,5 +16,13 @@ class Pop_manager():
                     self.pop_text += line
         print(self.pop_text)
 
+def ngram_words(text, n):
+
+    n_gram = ngrams(sentence.split(), n)
+    fdist = nltk.FreqDist(n_gram)
+    n_gram = []
+    for t,v in fdist:
+        n_gram.append(t+' '+v)
+    return n_gram
 
 pop_manager = Pop_manager()
