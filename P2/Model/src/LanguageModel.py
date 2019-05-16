@@ -24,13 +24,15 @@ class Ngram_manager():
 
 
 class Pop_manager():
-    pop_v = {}
+    pop_text = ''
+    pop_dict = {}
     pop_words = []
     ngram_manager = Ngram_manager()
     def __init__(self):
         self.read_files()
+        self.make_dict()
+        print(self.pop_dict)
 
-    pop_text = ''
     def read_files(self):
         for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
 
@@ -39,7 +41,13 @@ class Pop_manager():
                     self.pop_text += line
 
         self.pop_words = self.pop_text.split(' ')
-        print(self.pop_words)
+
+    def make_dict(self):
+        for word in self.pop_words:
+            if word in self.pop_dict:
+                self.pop_dict[word] += 1
+            else:
+                self.pop_dict[word] = 1
     
     def ngram_handler(self):
         unigram_list = self.ngram_manager.ngram_words(self.pop_text, 1)
