@@ -30,16 +30,20 @@ class Pop_manager():
     def __init__(self):
         self.read_files()
         self.make_dict()
-        print(len(self.pop_dict))
 
     def read_files(self):
         for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
-                    self.pop_text += line
+                line = line.rstrip()
+                line += ' '
+                self.pop_text += line
 
         self.pop_words = self.pop_text.split(' ')
+        for word in self.pop_words:
+            if word is '':
+                self.pop_words.remove('')
 
     def make_dict(self):
         for word in self.pop_words:
@@ -54,10 +58,11 @@ class Pop_manager():
         unigram_counts = []
         for word in self.pop_dict:
             wholeWords += self.pop_dict[word]
-
         for unigram in unigram_list:
-            unigram_counts.append((self.ngram_manager.calculate_probability(self.pop_dict[unigram], wholeWords, len(self.pop_dict)))*1000)
-        print(unigram_counts)
+            unigram_counts.append((self.ngram_manager.calculate_probability(self.pop_dict[unigram], wholeWords, len(self.pop_dict))))
+        for i in range(0,len(unigram_list)):
+            print(unigram_list[i],"|",unigram_counts[i])
+ 
         # two_gram_list = self.ngram_manager.ngram_words(self.pop_text, 2)
         # three_gram_list = self.ngram_manager.ngram_words(self.pop_text, 3)
         # unigram = self.ngram_manager.calculate_onegram(unigram_list)
