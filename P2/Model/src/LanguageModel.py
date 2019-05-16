@@ -5,16 +5,22 @@ import glob
 from collections import Counter
 
 class Ngram_manager():
+    
     ngram_list = []
     def ngram_words(self, text, n):
         n_gram = ngrams(text.split(), n)
         fdist = nltk.FreqDist(n_gram)
-        for t in fdist:
-            if n == 1:
+        if n == 1:
+            self.ngram_list = []
+            for t in fdist:
                 self.ngram_list.append(t[0])
-            elif n == 2:
+        elif n == 2:
+            self.ngram_list = []
+            for t in fdist:
                 self.ngram_list.append(t[0]+' '+t[1])
-            elif n == 3:
+        elif n == 3:
+            self.ngram_list = []
+            for t in fdist:
                 self.ngram_list.append(t[0]+' '+t[1]+' '+t[2])
         return self.ngram_list
 
@@ -32,7 +38,8 @@ class Pop_manager():
         self.make_dict()
 
     def read_files(self):
-        for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
+        # ../../SplitData/train/pop/*.txt
+        for pop_lyric_file in glob.glob("test/in.2gram"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
@@ -63,9 +70,14 @@ class Pop_manager():
         for i in range(0,len(unigram_list)):
             print(unigram_list[i],"|",unigram_counts[i])
  
-        # two_gram_list = self.ngram_manager.ngram_words(self.pop_text, 2)
+
+        two_gram_list = self.ngram_manager.ngram_words(self.pop_text, 2)
+        for word in two_gram_list:
+            if ' ' not in word:
+                print(word)
+                two_gram_list.remove(word)
+        print(two_gram_list)
         # three_gram_list = self.ngram_manager.ngram_words(self.pop_text, 3)
-        # unigram = self.ngram_manager.calculate_onegram(unigram_list)
 
     # def pop_types(self):
 
