@@ -67,16 +67,25 @@ class Pop_manager():
             wholeWords += self.pop_dict[word]
         for unigram in unigram_list:
             unigram_counts.append((self.ngram_manager.calculate_probability(self.pop_dict[unigram], wholeWords, len(self.pop_dict))))
+        print("************* unigram ************")
         for i in range(0,len(unigram_list)):
-            print(unigram_list[i],"|",unigram_counts[i])
+            print(unigram_list[i], "|", unigram_counts[i])
+        print("\n\n")
  
-
+        print("************* biagram ************")
         two_gram_list = self.ngram_manager.ngram_words(self.pop_text, 2)
         for word in two_gram_list:
-            if ' ' not in word:
-                print(word)
-                two_gram_list.remove(word)
-        print(two_gram_list)
+            counter = 0
+            words = word.split(' ')
+            for i in range(0, len(self.pop_words)-1):
+                if self.pop_words[i] == words[0] and self.pop_words[i+1] == words[1]:
+                    counter +=1
+            biagram_counts = self.ngram_manager.calculate_probability(counter, self.pop_dict[words[0]], len(self.pop_dict))
+            print(words[0], "|", words[1], "|", biagram_counts)
+        print("\n\n")
+
+
+
         # three_gram_list = self.ngram_manager.ngram_words(self.pop_text, 3)
 
     # def pop_types(self):
