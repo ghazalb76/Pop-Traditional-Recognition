@@ -41,10 +41,12 @@ class Ngram_manager():
             if word != '<s>' and word != '</s>':
                 wholeWords += dictionary[word]
         for unigram in unigram_list:
-            unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
+            temp = str((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
+            temp = temp[0:6]
+            unigram_counts.append(temp)
         for i in range(0,len(unigram_list)):
             print(unigram_list[i], "|", unigram_counts[i])
-            unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
+            unigram_out.write(unigram_list[i]+ "|"+ unigram_counts[i]+ "\n")
         print("\n\n")
 
 
@@ -64,9 +66,10 @@ class Ngram_manager():
                 for i in range(0, len(label_words)-1):
                     if label_words[i] == words[0] and label_words[i+1] == words[1]:
                         counter +=1
-                biagram_counts = self.calculate_probability(counter, dictionary[words[0]], len(dictionary)-2)
+                temp = str(self.calculate_probability(counter, dictionary[words[0]], len(dictionary)-2))
+                biagram_counts = temp[0:6]
                 print(words[0], "|", words[1], "|", biagram_counts)
-                biagram_out.write(words[0]+ "|"+ words[1]+ "|"+ str(biagram_counts)+ "\n")
+                biagram_out.write(words[0]+ "|"+ words[1]+ "|"+ biagram_counts+ "\n")
         print("\n\n")
 
 
@@ -89,7 +92,8 @@ class Ngram_manager():
                         two_counter += 1
                         if label_words[i+2] == words[2]:
                             three_counter += 1
-                trigram_counts = self.calculate_probability(three_counter, two_counter, len(dictionary)-2)
+                temp = str(self.calculate_probability(three_counter, two_counter, len(dictionary)-2))
+                trigram_counts = temp[0:6]
                 print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
                 trigram_out.write(words[0]+ "|"+ words[1]+ "|"+ words[2]+ "|"+ str(trigram_counts)+ "\n")
         print("\n\n")
@@ -109,7 +113,8 @@ class Pop_manager():
 
 
     def read_files(self):
-        for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
+        # "../../SplitData/train/pop/*.txt"
+        for pop_lyric_file in glob.glob("../test/in.1gram"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
@@ -194,5 +199,5 @@ class Traditional_manager():
 pop_manager = Pop_manager()
 pop_manager.ngram_handler()
 
-traditional_manager = Traditional_manager()
-traditional_manager.ngram_handler()
+# traditional_manager = Traditional_manager()
+# traditional_manager.ngram_handler()
