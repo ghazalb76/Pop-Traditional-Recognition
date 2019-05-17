@@ -116,7 +116,8 @@ class Pop_manager():
                 line = line.rstrip()
                 line += ' </s> <s> '
                 self.pop_text += line
-
+        txt_file = open("oo.txt", 'w', encoding="utf-8")
+        txt_file.write(self.pop_text)
         pop_wordss = self.pop_text.split(' ')
         for i in range(0,len(pop_wordss)-2):
             self.pop_words.append(pop_wordss[i])
@@ -131,7 +132,7 @@ class Pop_manager():
                     self.pop_dict[word] += 1
                 else:
                     self.pop_dict[word] = 1
-    
+
 
     def ngram_handler(self):
         unigram_out_path = "../pop/1gram.lm"
