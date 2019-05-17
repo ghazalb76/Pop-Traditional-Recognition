@@ -31,6 +31,7 @@ class Ngram_manager():
 
     def unigram(self, text, dictionary):
         print("************* unigram ************")
+        unigram_out = open("../test/out.1gram.lm", 'w', encoding="utf-8")
         unigram_list = self.ngram_words(text, 1)
         unigram_list.remove('<s>')
         unigram_list.remove('</s>')
@@ -43,11 +44,13 @@ class Ngram_manager():
             unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
         for i in range(0,len(unigram_list)):
             print(unigram_list[i], "|", unigram_counts[i])
+            unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
         print("\n\n")
 
 
     def biagram(self, text, dictionary, label_words):
         print("************* biagram ************")
+        biagram_out = open("../test/out.2gram.lm", 'w', encoding="utf-8")
         biagram_list = self.ngram_words(text, 2)
         biagram_list_distinct = []
         for word in biagram_list:
@@ -63,11 +66,14 @@ class Ngram_manager():
                         counter +=1
                 biagram_counts = self.calculate_probability(counter, dictionary[words[0]], len(dictionary)-2)
                 print(words[0], "|", words[1], "|", biagram_counts)
+                biagram_out.write(words[0]+ "|"+ words[1]+ "|"+ str(biagram_counts)+ "\n")
+
         print("\n\n")
 
 
     def triagram(self, text, dictionary, label_words):
         print("************* trigram ************")
+        trigram_out = open("../test/out.3gram.lm", 'w', encoding="utf-8")
         trigram_list = self.ngram_words(text, 3)
         trigram_list_distinct = []
         for word in trigram_list:
@@ -86,6 +92,7 @@ class Ngram_manager():
                             three_counter += 1
                 trigram_counts = self.calculate_probability(three_counter, two_counter, len(dictionary)-2)
                 print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
+                trigram_out.write(words[0]+ "|"+ words[1]+ "|"+ words[2]+ "|"+ str(trigram_counts)+ "\n")
         print("\n\n")
         
 
@@ -128,6 +135,7 @@ class Pop_manager():
         self.ngram_manager.unigram(self.pop_text, self.pop_dict)
         self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words)
         self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words)
+
 
 
 
