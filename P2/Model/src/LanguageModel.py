@@ -80,13 +80,13 @@ class Pop_manager():
         print("\n\n")
  
         print("************* biagram ************")
-        two_gram_list = self.ngram_manager.ngram_words(self.pop_text, 2)
-        two_gram_list_distinct = []
-        for word in two_gram_list:
-            if word not in two_gram_list_distinct:
-                two_gram_list_distinct.append(word)
+        biagram_list = self.ngram_manager.ngram_words(self.pop_text, 2)
+        biagram_list_distinct = []
+        for word in biagram_list:
+            if word not in biagram_list_distinct:
+                biagram_list_distinct.append(word)
 
-        for word in two_gram_list_distinct:
+        for word in biagram_list_distinct:
             counter = 0
             words = word.split(' ')
             if words[0] != '</s>':
@@ -95,6 +95,27 @@ class Pop_manager():
                         counter +=1
                 biagram_counts = self.ngram_manager.calculate_probability(counter, self.pop_dict[words[0]], len(self.pop_dict)-2)
                 print(words[0], "|", words[1], "|", biagram_counts)
+        print("\n\n")
+
+        print("************* trigram ************")
+        trigram_list = self.ngram_manager.ngram_words(self.pop_text, 3)
+        trigram_list_distinct = []
+        for word in trigram_list:
+            if word not in trigram_list_distinct:
+                trigram_list_distinct.append(word)
+
+        for word in trigram_list_distinct:
+            two_counter = 0
+            three_counter = 0
+            words = word.split(' ')
+            if words[0] != '</s>' and words[1] != '</s>':
+                for i in range(0, len(self.pop_words)-2):
+                    if self.pop_words[i] == words[0] and self.pop_words[i+1] == words[1]:
+                        two_counter += 1
+                        if self.pop_words[i+2] == words[2]:
+                            three_counter += 1
+                trigram_counts = self.ngram_manager.calculate_probability(three_counter, two_counter, len(self.pop_dict)-2)
+                print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
         print("\n\n")
 
 
