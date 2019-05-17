@@ -143,6 +143,55 @@ class Pop_manager():
 
 
 
+class Traditional_manager():
+    traditional_text = '<s> '
+    traditional_dict = {}
+    traditional_words = []
+    ngram_manager = Ngram_manager()
+
+
+    def __init__(self):
+        self.read_files()
+        self.make_dict()
+
+
+    def read_files(self):
+        for traditional_lyric_file in glob.glob("../../SplitData/train/traditional/*.txt"):
+
+            txt_file = open(traditional_lyric_file, 'r', encoding="utf-8")
+            for line in txt_file.readlines():
+                line = line.rstrip()
+                line += ' </s> <s> '
+                self.traditional_text += line
+
+        traditional_wordss = self.traditional_text.split(' ')
+        for i in range(0,len(traditional_wordss)-2):
+            self.traditional_words.append(traditional_wordss[i])
+        for word in self.traditional_words:
+            if word is '':
+                self.traditional_words.remove('')
+
+
+    def make_dict(self):
+        for word in self.traditional_words:
+                if word in self.traditional_dict:
+                    self.traditional_dict[word] += 1
+                else:
+                    self.traditional_dict[word] = 1
+    
+
+    def ngram_handler(self):
+        unigram_out_path = "../traditional/1gram.lm"
+        biagram_out_path = "../traditional/2gram.lm"
+        trigram_out_path = "../traditional/3gram.lm"
+        self.ngram_manager.unigram(self.traditional_text, self.traditional_dict, unigram_out_path)
+        self.ngram_manager.biagram(self.traditional_text, self.traditional_dict, self.traditional_words, biagram_out_path)
+        self.ngram_manager.triagram(self.traditional_text, self.traditional_dict, self.traditional_words, trigram_out_path)
+
+
 
 pop_manager = Pop_manager()
 pop_manager.ngram_handler()
+
+traditional_manager = Traditional_manager()
+traditional_manager.ngram_handler()
