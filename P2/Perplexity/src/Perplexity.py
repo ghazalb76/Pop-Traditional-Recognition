@@ -35,6 +35,16 @@ def read_text():
         return pop_words_distinct
 
 
+def uni_perplexity(pop_words_distinct, unigram):
+        unigram_perplexity = 1
+        for word in pop_words_distinct:
+                for per in unigram:
+                        if word == per[0]:
+                                unigram_perplexity *= 1/per[1]
+
+        unigram_perplexity = math.pow(unigram_perplexity, len(pop_words_distinct))
+        print(unigram_perplexity)
+
 
 pop_words_distinct = read_text()
 unigram = read_biagram(1)
