@@ -46,3 +46,53 @@ for sentences in range(int(n)):
     txt_file.write("\n")
 
 
+
+unigram_text = ''
+txt_file = open("../../Model/pop/2gram.lm", 'r', encoding="utf-8")
+for line in txt_file.readlines():
+    line = line.rstrip()
+    line += '|'
+    unigram_text += line
+unigram_list = unigram_text.split("|")
+unigram_dict = {}
+print(unigram_list)
+for i in range(0, len(unigram_list)-1, 3):
+    unigram_dict[(unigram_list[i], unigram_list[i+1])] = float(unigram_list[i+2])
+
+print(unigram_dict)
+
+
+txt_file = open("out.txt", 'w', encoding="utf-8")
+
+for sentences in range(int(n)):
+    counter = 0
+    r_words_number = 1
+    end = " "
+    flag = True
+    while(end != "</s>"):
+        random_probability = random.random()
+        temp = str(random_probability)
+        r_words_number = int(temp[2])
+        if r_words_number == 0:
+            r_words_number = 6
+        print(random_probability)
+        sum = 0
+        for i in unigram_dict:
+            sum += unigram_dict[i]
+            if sum > random_probability:
+                if flag:
+                    if i[0] == "<s>":
+                        print(unigram_dict[i])
+                        txt_file.write(i[0]+" "+i[1] +" ")
+                        end = i[1]
+                        flag = False
+                        break
+                else:
+                    if i[0] != "<s>":
+                        print(unigram_dict[i])
+                        txt_file.write(i[0]+" "+i[1] +" ")
+                        end = i[1]
+                        break
+
+        counter += 1
+    txt_file.write("\n")
