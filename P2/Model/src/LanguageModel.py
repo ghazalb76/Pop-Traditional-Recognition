@@ -113,8 +113,7 @@ class Pop_manager():
 
 
     def read_files(self):
-        # "../../SplitData/train/pop/*.txt"
-        for pop_lyric_file in glob.glob("../test/in.1gram"):
+        for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
