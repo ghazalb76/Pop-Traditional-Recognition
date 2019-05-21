@@ -29,7 +29,7 @@ class Ngram_manager():
         return (thisWord+1)/(wholeWord+types+1)
 
 
-    def unigram(self, base_list, text, dictionary, unigram_out_path):
+    def unigram(self, text, dictionary, unigram_out_path):
         print("************* unigram ************")
         unigram_out = open(unigram_out_path, 'w', encoding="utf-8")
         unigram_list = self.ngram_words(text, 1)
@@ -41,21 +41,12 @@ class Ngram_manager():
             if word != '<s>' and word != '</s>':
                 wholeWords += dictionary[word]
         for unigram in unigram_list:
-            if unigram not in base_list:
-                print(unigram, "    ",dictionary['UNK'], len(dictionary))
-
-                unigram_counts.append((self.calculate_probability(dictionary['UNK'], wholeWords, len(dictionary)-2)))
-            else:
-                print(unigram, "    ",dictionary[unigram])
                 unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
         sum = 0
         for i in range(0,len(unigram_list)):
             sum += unigram_counts[i]
             print(unigram_list[i], "|", unigram_counts[i])
-            if unigram_list[i] in base_list:
-                unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
-            else:
-                unigram_out.write("UNK"+ "|"+ str(unigram_counts[i])+ "\n")
+            unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
         print(sum, "\n\n")
 
 
@@ -89,6 +80,7 @@ class Ngram_manager():
         for word in trigram_list:
             if word not in trigram_list_distinct:
                 trigram_list_distinct.append(word)
+        print(label_words)
 
         for word in trigram_list_distinct:
             two_counter = 0
@@ -114,6 +106,7 @@ class Pop_manager():
     ngram_manager = Ngram_manager()
     pop_base_words = []
     pop_base_text = " "
+    pop_words_unk = []
 
 
     def __init__(self):
@@ -122,7 +115,7 @@ class Pop_manager():
 
 
     def read_files(self):
-        for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
+        for pop_lyric_file in glob.glob("../test/in.2gram"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
@@ -139,7 +132,7 @@ class Pop_manager():
 
         ''' Please change the vocab below based on train data set to test the code'''
         for word in self.pop_words:
-            if word != 'همیشه':
+            if word != 'the':
                 self.pop_base_words.append(word)
 
 
@@ -147,21 +140,28 @@ class Pop_manager():
         for word in self.pop_words:
                 if word in self.pop_dict:
                     self.pop_dict[word] += 1
+                    self.pop_words_unk.append(word)
                 else:
                     if word in self.pop_base_words:
                         self.pop_dict[word] = 1
+                        self.pop_words_unk.append(word)
                     else:
                         self.pop_dict['UNK'] += 1
+                        self.pop_words_unk.append("UNK")
+                        
+        self.pop_text = ' '
+        for word in self.pop_words_unk:
+            self.pop_text += word + " "
         print(self.pop_dict)
     
 
     def ngram_handler(self):
-        unigram_out_path = "../pop/1gram.lm"
-        biagram_out_path = "../pop/2gram.lm"
-        trigram_out_path = "../pop/3gram.lm"
-        self.ngram_manager.unigram(self.pop_base_words, self.pop_text, self.pop_dict, unigram_out_path)
-        # self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words, biagram_out_path)
-        # self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words, trigram_out_path)
+        unigram_out_path = "../test/ref.1gram.lm"
+        biagram_out_path = "../test/ref.2gram.lm"
+        trigram_out_path = "../test/ref.3gram.lm"
+        self.ngram_manager.unigram(self.pop_text, self.pop_dict, unigram_out_path)
+        self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words_unk, biagram_out_path)
+        self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words_unk, trigram_out_path)
 
 
 
