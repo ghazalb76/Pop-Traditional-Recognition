@@ -112,7 +112,7 @@ class Pop_manager():
 
 
     def read_files(self):
-        for pop_lyric_file in glob.glob("../test/in.2gram"):
+        for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
@@ -152,13 +152,80 @@ class Pop_manager():
 
 
     def ngram_handler(self):
-        unigram_out_path = "../test/ref.1gram.lm"
-        biagram_out_path = "../test/ref.2gram.lm"
-        trigram_out_path = "../test/ref.3gram.lm"
+        unigram_out_path = "../pop/1gram.lm"
+        biagram_out_path = "../pop/2gram.lm"
+        trigram_out_path = "../pop/3gram.lm"
         self.ngram_manager.unigram(self.pop_text, self.pop_dict, unigram_out_path)
         self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words_unk, biagram_out_path)
         self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words_unk, trigram_out_path)
 
 
+class Traditional_manager():
+    traditional_text = '<s> '
+    traditional_dict = {'UNK':0}
+    traditional_words = []
+    ngram_manager = Ngram_manager()
+    traditional_base_words = []
+    traditional_base_text = " "
+    traditional_words_unk = []
+
+
+    def __init__(self):
+        self.read_files()
+        self.make_dict()
+
+
+    def read_files(self):
+        for traditional_lyric_file in glob.glob("../../SplitData/train/traditional/*.txt"):
+
+            txt_file = open(traditional_lyric_file, 'r', encoding="utf-8")
+            for line in txt_file.readlines():
+                line = line.rstrip()
+                line += ' </s> <s> '
+                self.traditional_text += line
+
+        traditional_wordss = self.traditional_text.split(' ')
+        for i in range(0,len(traditional_wordss)-2):
+            self.traditional_words.append(traditional_wordss[i])
+        for word in self.traditional_words:
+            if word is '':
+                self.traditional_words.remove('')
+
+        ''' Please change the vocab below based on train data set to test the code'''
+        for word in self.traditional_words:
+            if word != 'the':
+                self.traditional_base_words.append(word)
+
+
+    def make_dict(self):
+        for word in self.traditional_words:
+                if word in self.traditional_dict:
+                    self.traditional_dict[word] += 1
+                    self.traditional_words_unk.append(word)
+                else:
+                    if word in self.traditional_base_words:
+                        self.traditional_dict[word] = 1
+                        self.traditional_words_unk.append(word)
+                    else:
+                        self.traditional_dict['UNK'] += 1
+                        self.traditional_words_unk.append("UNK")
+                        
+        self.traditional_text = ' '
+        for word in self.traditional_words_unk:
+            self.traditional_text += word + " "
+
+
+    def ngram_handler(self):
+        unigram_out_path = "../traditional/1gram.lm"
+        biagram_out_path = "../traditional/2gram.lm"
+        trigram_out_path = "../traditional/3gram.lm"
+        self.ngram_manager.unigram(self.traditional_text, self.traditional_dict, unigram_out_path)
+        self.ngram_manager.biagram(self.traditional_text, self.traditional_dict, self.traditional_words_unk, biagram_out_path)
+        self.ngram_manager.triagram(self.traditional_text, self.traditional_dict, self.traditional_words_unk, trigram_out_path)
+
+
 pop_manager = Pop_manager()
 pop_manager.ngram_handler()
+
+traditional_manager = Traditional_manager()
+traditional_manager.ngram_handler()
