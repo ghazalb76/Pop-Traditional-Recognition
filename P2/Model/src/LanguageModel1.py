@@ -52,7 +52,10 @@ class Ngram_manager():
         for i in range(0,len(unigram_list)):
             sum += unigram_counts[i]
             print(unigram_list[i], "|", unigram_counts[i])
-            unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
+            if unigram_list[i] in base_list:
+                unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
+            else:
+                unigram_out.write("UNK"+ "|"+ str(unigram_counts[i])+ "\n")
         print(sum, "\n\n")
 
 
@@ -119,7 +122,7 @@ class Pop_manager():
 
 
     def read_files(self):
-        for pop_lyric_file in glob.glob("../test/in.1gram"):
+        for pop_lyric_file in glob.glob("../../SplitData/train/pop/*.txt"):
 
             txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
             for line in txt_file.readlines():
@@ -134,18 +137,10 @@ class Pop_manager():
             if word is '':
                 self.pop_words.remove('')
 
-        txt_file = open("../test/vocab.1gram", 'r', encoding="utf-8")
-        for line in txt_file.readlines():
-            line = line.rstrip()
-            line += ' </s> <s> '
-            self.pop_base_text += line
-
-        pop_base_wordss = self.pop_base_text.split(' ')
-        for i in range(0,len(pop_wordss)-2):
-            self.pop_base_words.append(pop_base_wordss[i])
-        for word in self.pop_base_words:
-            if word is '':
-                self.pop_base_words.remove('')
+        ''' Please change the vocab below based on train data set to test the code'''
+        for word in self.pop_words:
+            if word != 'همیشه':
+                self.pop_base_words.append(word)
 
 
     def make_dict(self):
