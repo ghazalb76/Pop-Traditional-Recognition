@@ -37,17 +37,16 @@ class Ngram_manager():
         unigram_list.remove('</s>')
         wholeWords = 0
         unigram_counts = []
+
         for word in dictionary:
             if word != '<s>' and word != '</s>':
                 wholeWords += dictionary[word]
         for unigram in unigram_list:
                 unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
-        sum = 0
         for i in range(0,len(unigram_list)):
-            sum += unigram_counts[i]
             print(unigram_list[i], "|", unigram_counts[i])
             unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
-        print(sum, "\n\n")
+        print("\n\n")
 
 
     def biagram(self, text, dictionary, label_words, biagram_out_path):
@@ -80,7 +79,6 @@ class Ngram_manager():
         for word in trigram_list:
             if word not in trigram_list_distinct:
                 trigram_list_distinct.append(word)
-        print(label_words)
 
         for word in trigram_list_distinct:
             two_counter = 0
@@ -96,7 +94,6 @@ class Ngram_manager():
                 print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
                 trigram_out.write(words[0]+ "|"+ words[1]+ "|"+ words[2]+ "|"+ str(trigram_counts)+ "\n")
         print("\n\n")
-        
 
 
 class Pop_manager():
@@ -152,8 +149,7 @@ class Pop_manager():
         self.pop_text = ' '
         for word in self.pop_words_unk:
             self.pop_text += word + " "
-        print(self.pop_dict)
-    
+
 
     def ngram_handler(self):
         unigram_out_path = "../test/ref.1gram.lm"
@@ -162,7 +158,6 @@ class Pop_manager():
         self.ngram_manager.unigram(self.pop_text, self.pop_dict, unigram_out_path)
         self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words_unk, biagram_out_path)
         self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words_unk, trigram_out_path)
-
 
 
 pop_manager = Pop_manager()
