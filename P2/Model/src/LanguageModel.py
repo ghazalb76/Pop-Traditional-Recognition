@@ -30,7 +30,7 @@ class Ngram_manager():
 
 
     def unigram(self, text, dictionary, unigram_out_path):
-        print("************* unigram ************")
+        # print("************* unigram ************")
         unigram_out = open(unigram_out_path, 'w', encoding="utf-8")
         unigram_list = self.ngram_words(text, 1)
         unigram_list.remove('<s>')
@@ -44,15 +44,15 @@ class Ngram_manager():
         for unigram in unigram_list:
                 unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
         for i in range(0,len(unigram_list)):
-            print(unigram_list[i], "|", unigram_counts[i])
+            # print(unigram_list[i], "|", unigram_counts[i])
             temp = str(unigram_counts[i])
             unigram_counts[i] = float(temp[0:6])
             unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
-        print("\n\n")
+        # print("\n\n")
 
 
     def biagram(self, text, dictionary, label_words, biagram_out_path):
-        print("************* biagram ************")
+        # print("************* biagram ************")
         biagram_out = open(biagram_out_path, 'w', encoding="utf-8")
         biagram_list = self.ngram_words(text, 2)
         biagram_list_distinct = []
@@ -70,13 +70,13 @@ class Ngram_manager():
                 biagram_counts = self.calculate_probability(counter, dictionary[words[0]], len(dictionary)-2)
                 temp = str(biagram_counts)
                 biagram_counts = float(temp[0:6])
-                print(words[0], "|", words[1], "|", biagram_counts)
+                # print(words[0], "|", words[1], "|", biagram_counts)
                 biagram_out.write(words[0]+ "|"+ words[1]+ "|"+ str(biagram_counts)+ "\n")
-        print("\n\n")
+        # print("\n\n")
 
 
     def triagram(self, text, dictionary, label_words, trigram_out_path):
-        print("************* trigram ************")
+        # print("************* trigram ************")
         trigram_out = open(trigram_out_path, 'w', encoding="utf-8")
         trigram_list = self.ngram_words(text, 3)
         trigram_list_distinct = []
@@ -97,9 +97,9 @@ class Ngram_manager():
                 trigram_counts = self.calculate_probability(three_counter, two_counter, len(dictionary)-2)
                 temp = str(trigram_counts)
                 trigram_counts = float(temp[0:6])
-                print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
+                # print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
                 trigram_out.write(words[0]+ "|"+ words[1]+ "|"+ words[2]+ "|"+ str(trigram_counts)+ "\n")
-        print("\n\n")
+        # print("\n\n")
 
 
 class Pop_manager():
