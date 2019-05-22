@@ -1,9 +1,10 @@
 import glob
 import math
+from decimal import Decimal
 
 
 def read_ngrams(i):
-        gram_text = open("../../Model/test/ref."+str(i)+"gram.lm", 'r', encoding="utf-8")
+        gram_text = open("../../Model/pop/"+str(i)+"gram.lm", 'r', encoding="utf-8")
         gram = []
         for line in gram_text.readlines():
                 line.rstrip("\n")
@@ -13,10 +14,10 @@ def read_ngrams(i):
         return gram
 
 
-def read_text():
+def read_text(path):
         pop_text = '<s> '
         pop_words = []
-        for pop_lyric_file in glob.glob("../../Model/test/in.1gram"):
+        for pop_lyric_file in glob.glob(path):
                 txt_file = open(pop_lyric_file, 'r', encoding="utf-8")
                 for line in txt_file.readlines():
                         line = line.rstrip()
@@ -26,6 +27,7 @@ def read_text():
         for i in range(0, len(pop_wordss)-2):
                 pop_words.append(pop_wordss[i])
         return pop_words
+
 
 def change_uni_UNK(unigram):
         words_ = []
@@ -39,6 +41,7 @@ def change_uni_UNK(unigram):
                         pop_words_UNK.append("UNK")
         return pop_words_UNK
 
+
 def change_ngram_UNK(unigram):
         words_ = []
         pop_words_UNK = []
@@ -49,7 +52,6 @@ def change_ngram_UNK(unigram):
                         pop_words_UNK.append(word)
                 else:
                         pop_words_UNK.append("UNK")
-
         return pop_words_UNK
 
 
@@ -58,13 +60,11 @@ def uni_perplexity(pop_words, unigram):
         for word in pop_words:
                 for per in unigram:
                         if word == per[0]:
-                                unigram_perplexity *= 1/per[1]
-                                # print(per[0], "|", 1/per[1])
-
-        temp = str(unigram_perplexity)
-        unigram_perplexity = float(temp[0:6])
-        unigram_perplexity = math.pow(unigram_perplexity, len(pop_words))
-        print("unigram perplexity: ", unigram_perplexity)
+                                # print(per[0], "|", per[1])
+                                unigram_perplexity =unigram_perplexity* Decimal(per[1])
+                                break
+        unigram_perplexity = pow(unigram_perplexity,Decimal((-1)/len(pop_words)))
+        print(unigram_perplexity)
 
 
 def bia_perplexity(pop_words_distinct, biagram):
@@ -73,13 +73,10 @@ def bia_perplexity(pop_words_distinct, biagram):
                 for per in biagram:
                         if pop_words_distinct[i] == per[0] and pop_words_distinct[i+1] == per[1]:
                                 # print(per[0], "|", per[1], "|", per[2])
-                                biagram_perplexity *= 1/per[2]
-
-        temp = str(biagram_perplexity)
-        biagram_perplexity = float(temp[0:6])
-        biagram_perplexity = math.pow(biagram_perplexity, len(pop_words_distinct))
-        print("bigram perplexity: ",biagram_perplexity)
-
+                                biagram_perplexity =biagram_perplexity* Decimal(per[2])
+                                break
+        biagram_perplexity= pow(biagram_perplexity, Decimal((-1)/len(pop_words)))
+        print(biagram_perplexity)
 
 def tri_perplexity(pop_words_distinct, biagram):
         triagram_perplexity = 1
@@ -87,16 +84,13 @@ def tri_perplexity(pop_words_distinct, biagram):
                 for per in triagram:
                         if pop_words_distinct[i] == per[0] and pop_words_distinct[i+1] == per[1] and pop_words_distinct[i+2] == per[2]:
                                 # print(per[0], "|", per[1], "|", per[2], "|", per[3])
-                                triagram_perplexity *= 1/per[3]
-
-        temp = str(triagram_perplexity)
-        triagram_perplexity = float(temp[0:6])
-        triagram_perplexity = math.pow(triagram_perplexity, len(pop_words_distinct))
-        print("trigram perplexity: ",triagram_perplexity)
+                                triagram_perplexity =triagram_perplexity* Decimal(per[3])
+                                break
+        triagram_perplexity = pow(triagram_perplexity, Decimal((-1)/len(pop_words)))
+        print(triagram_perplexity)
 
 
-
-pop_words = read_text()
+pop_words = read_text("../../SplitData/train/pop/*.txt")
 unigram = read_ngrams(1)
 biagram = read_ngrams(2)
 triagram = read_ngrams(3)
@@ -105,4 +99,40 @@ uni_perplexity(pop_words_UNK, unigram)
 pop_words_UNK = change_ngram_UNK(biagram)
 bia_perplexity(pop_words_UNK, biagram)
 tri_perplexity(pop_words_UNK, triagram)
+print()
 
+
+pop_words = read_text("../../SplitData/test/pop/*.txt")
+unigram = read_ngrams(1)
+biagram = read_ngrams(2)
+triagram = read_ngrams(3)
+pop_words_UNK = change_uni_UNK(unigram)
+uni_perplexity(pop_words_UNK, unigram)
+pop_words_UNK = change_ngram_UNK(biagram)
+bia_perplexity(pop_words_UNK, biagram)
+tri_perplexity(pop_words_UNK, triagram)
+print()
+
+
+pop_words = read_text("../../SplitData/train/traditional/*.txt")
+unigram = read_ngrams(1)
+biagram = read_ngrams(2)
+triagram = read_ngrams(3)
+pop_words_UNK = change_uni_UNK(unigram)
+uni_perplexity(pop_words_UNK, unigram)
+pop_words_UNK = change_ngram_UNK(biagram)
+bia_perplexity(pop_words_UNK, biagram)
+tri_perplexity(pop_words_UNK, triagram)
+print()
+
+
+pop_words = read_text("../../SplitData/test/traditional/*.txt")
+unigram = read_ngrams(1)
+biagram = read_ngrams(2)
+triagram = read_ngrams(3)
+pop_words_UNK = change_uni_UNK(unigram)
+uni_perplexity(pop_words_UNK, unigram)
+pop_words_UNK = change_ngram_UNK(biagram)
+bia_perplexity(pop_words_UNK, biagram)
+tri_perplexity(pop_words_UNK, triagram)
+print()
