@@ -78,6 +78,7 @@ def bia_perplexity(pop_words_distinct, biagram):
         biagram_perplexity= pow(biagram_perplexity, Decimal((-1)/len(pop_words)))
         print(biagram_perplexity)
 
+
 def tri_perplexity(pop_words_distinct, biagram):
         triagram_perplexity = 1
         for i in range(0, len(pop_words_distinct)-2):

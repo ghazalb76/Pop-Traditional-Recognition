@@ -1,1 +1,0 @@
-<s> dogs chase cats </s> <s> dogs bark </s> <s> cats meow </s> <s> dogs chase birds </s> <s> cats chase birds </s> <s> dogs chase the cats </s> <s> the birds chirp </s> <s> 
