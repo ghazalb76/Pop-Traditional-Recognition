@@ -45,6 +45,8 @@ class Ngram_manager():
                 unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
         for i in range(0,len(unigram_list)):
             print(unigram_list[i], "|", unigram_counts[i])
+            temp = str(unigram_counts[i])
+            unigram_counts[i] = float(temp[0:6])
             unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
         print("\n\n")
 
@@ -66,6 +68,8 @@ class Ngram_manager():
                     if label_words[i] == words[0] and label_words[i+1] == words[1]:
                         counter +=1
                 biagram_counts = self.calculate_probability(counter, dictionary[words[0]], len(dictionary)-2)
+                temp = str(biagram_counts)
+                biagram_counts = float(temp[0:6])
                 print(words[0], "|", words[1], "|", biagram_counts)
                 biagram_out.write(words[0]+ "|"+ words[1]+ "|"+ str(biagram_counts)+ "\n")
         print("\n\n")
@@ -91,6 +95,8 @@ class Ngram_manager():
                         if label_words[i+2] == words[2]:
                             three_counter += 1
                 trigram_counts = self.calculate_probability(three_counter, two_counter, len(dictionary)-2)
+                temp = str(trigram_counts)
+                trigram_counts = float(temp[0:6])
                 print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
                 trigram_out.write(words[0]+ "|"+ words[1]+ "|"+ words[2]+ "|"+ str(trigram_counts)+ "\n")
         print("\n\n")
@@ -129,7 +135,7 @@ class Pop_manager():
 
         ''' Please change the vocab below based on train data set to test the code'''
         for word in self.pop_words:
-            if word != 'the':
+            if word != 'همیشه':
                 self.pop_base_words.append(word)
 
 
@@ -193,7 +199,7 @@ class Traditional_manager():
 
         ''' Please change the vocab below based on train data set to test the code'''
         for word in self.traditional_words:
-            if word != 'the':
+            if word != 'دل':
                 self.traditional_base_words.append(word)
 
 
