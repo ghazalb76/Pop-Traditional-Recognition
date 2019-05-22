@@ -107,6 +107,10 @@ class Pop_manager():
     pop_dict = {'UNK':0}
     pop_words = []
     ngram_manager = Ngram_manager()
+    pop_base_words = []
+    pop_base_text = " "
+    pop_words_unk = []
+
 
     def __init__(self):
         self.read_files()
@@ -129,26 +133,37 @@ class Pop_manager():
             if word is '':
                 self.pop_words.remove('')
 
+        ''' Please change the vocab below based on train data set to test the code'''
+        for word in self.pop_words:
+            if word != 'همیشه':
+                self.pop_base_words.append(word)
+
 
     def make_dict(self):
         for word in self.pop_words:
                 if word in self.pop_dict:
                     self.pop_dict[word] += 1
+                    self.pop_words_unk.append(word)
                 else:
-                    self.pop_dict[word] = 1
+                    if word in self.pop_base_words:
+                        self.pop_dict[word] = 1
+                        self.pop_words_unk.append(word)
+                    else:
+                        self.pop_dict['UNK'] += 1
+                        self.pop_words_unk.append("UNK")
                         
         self.pop_text = ' '
-        for word in self.pop_words:
+        for word in self.pop_words_unk:
             self.pop_text += word + " "
 
 
     def ngram_handler(self):
-        unigram_out_path = "../pop/1gram.lm"
-        biagram_out_path = "../pop/2gram.lm"
-        trigram_out_path = "../pop/3gram.lm"
+        unigram_out_path = "../pop/unk/1gram.lm"
+        biagram_out_path = "../pop/unk/2gram.lm"
+        trigram_out_path = "../pop/unk/3gram.lm"
         self.ngram_manager.unigram(self.pop_text, self.pop_dict, unigram_out_path)
-        self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words, biagram_out_path)
-        self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words, trigram_out_path)
+        self.ngram_manager.biagram(self.pop_text, self.pop_dict, self.pop_words_unk, biagram_out_path)
+        self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words_unk, trigram_out_path)
 
 
 class Traditional_manager():
@@ -156,6 +171,9 @@ class Traditional_manager():
     traditional_dict = {'UNK':0}
     traditional_words = []
     ngram_manager = Ngram_manager()
+    traditional_base_words = []
+    traditional_base_text = " "
+    traditional_words_unk = []
 
 
     def __init__(self):
@@ -179,22 +197,37 @@ class Traditional_manager():
             if word is '':
                 self.traditional_words.remove('')
 
+        ''' Please change the vocab below based on train data set to test the code'''
+        for word in self.traditional_words:
+            if word != 'دل':
+                self.traditional_base_words.append(word)
+
 
     def make_dict(self):
         for word in self.traditional_words:
                 if word in self.traditional_dict:
                     self.traditional_dict[word] += 1
+                    self.traditional_words_unk.append(word)
                 else:
-                    self.traditional_dict[word] = 1
+                    if word in self.traditional_base_words:
+                        self.traditional_dict[word] = 1
+                        self.traditional_words_unk.append(word)
+                    else:
+                        self.traditional_dict['UNK'] += 1
+                        self.traditional_words_unk.append("UNK")
+                        
+        self.traditional_text = ' '
+        for word in self.traditional_words_unk:
+            self.traditional_text += word + " "
 
 
     def ngram_handler(self):
-        unigram_out_path = "../traditional/1gram.lm"
-        biagram_out_path = "../traditional/2gram.lm"
-        trigram_out_path = "../traditional/3gram.lm"
+        unigram_out_path = "../traditional/unk/1gram.lm"
+        biagram_out_path = "../traditional/unk/2gram.lm"
+        trigram_out_path = "../traditional/unk/3gram.lm"
         self.ngram_manager.unigram(self.traditional_text, self.traditional_dict, unigram_out_path)
-        self.ngram_manager.biagram(self.traditional_text, self.traditional_dict, self.traditional_words, biagram_out_path)
-        self.ngram_manager.triagram(self.traditional_text, self.traditional_dict, self.traditional_words, trigram_out_path)
+        self.ngram_manager.biagram(self.traditional_text, self.traditional_dict, self.traditional_words_unk, biagram_out_path)
+        self.ngram_manager.triagram(self.traditional_text, self.traditional_dict, self.traditional_words_unk, trigram_out_path)
 
 
 pop_manager = Pop_manager()

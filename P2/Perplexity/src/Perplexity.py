@@ -3,8 +3,8 @@ import math
 from decimal import Decimal
 
 
-def read_ngrams(i):
-        gram_text = open("../../Model/pop/"+str(i)+"gram.lm", 'r', encoding="utf-8")
+def read_ngrams(path, i):
+        gram_text = open(path, 'r', encoding="utf-8")
         gram = []
         for line in gram_text.readlines():
                 line.rstrip("\n")
@@ -93,9 +93,9 @@ def tri_perplexity(pop_words_distinct, biagram):
 
 ''' Calculate perplexity for train data of pop using all ngrams'''
 pop_words = read_text("../../SplitData/train/pop/*.txt")
-unigram = read_ngrams(1)
-biagram = read_ngrams(2)
-triagram = read_ngrams(3)
+unigram = read_ngrams("../../Model/pop/unk/1gram.lm", 1)
+biagram = read_ngrams("../../Model/pop/unk/2gram.lm", 2)
+triagram = read_ngrams("../../Model/pop/unk/3gram.lm", 3)
 pop_words_UNK = change_uni_UNK(unigram)
 uni_perplexity(pop_words_UNK, unigram)
 pop_words_UNK = change_ngram_UNK(biagram)
@@ -106,9 +106,6 @@ print()
 
 ''' Calculate perplexity for test data of pop using all ngrams'''
 pop_words = read_text("../../SplitData/test/pop/*.txt")
-unigram = read_ngrams(1)
-biagram = read_ngrams(2)
-triagram = read_ngrams(3)
 pop_words_UNK = change_uni_UNK(unigram)
 uni_perplexity(pop_words_UNK, unigram)
 pop_words_UNK = change_ngram_UNK(biagram)
@@ -119,9 +116,9 @@ print()
 
 ''' Calculate perplexity for train data of traditional using all ngrams'''
 pop_words = read_text("../../SplitData/train/traditional/*.txt")
-unigram = read_ngrams(1)
-biagram = read_ngrams(2)
-triagram = read_ngrams(3)
+unigram = read_ngrams("../../Model/traditional/unk/1gram.lm", 1)
+biagram = read_ngrams("../../Model/traditional/unk/2gram.lm", 2)
+triagram = read_ngrams("../../Model/traditional/unk/3gram.lm", 3)
 pop_words_UNK = change_uni_UNK(unigram)
 uni_perplexity(pop_words_UNK, unigram)
 pop_words_UNK = change_ngram_UNK(biagram)
@@ -130,11 +127,8 @@ tri_perplexity(pop_words_UNK, triagram)
 print()
 
 
-''' Calculate perplexity for test data of traditional using all ngrams'''
+''' Calculate perplexity for train data of traditional using all ngrams'''
 pop_words = read_text("../../SplitData/test/traditional/*.txt")
-unigram = read_ngrams(1)
-biagram = read_ngrams(2)
-triagram = read_ngrams(3)
 pop_words_UNK = change_uni_UNK(unigram)
 uni_perplexity(pop_words_UNK, unigram)
 pop_words_UNK = change_ngram_UNK(biagram)
