@@ -30,26 +30,29 @@ class Ngram_manager():
 
 
     def unigram(self, text, dictionary, unigram_out_path):
-        print("************* unigram ************")
+        # print("************* unigram ************")
         unigram_out = open(unigram_out_path, 'w', encoding="utf-8")
         unigram_list = self.ngram_words(text, 1)
         unigram_list.remove('<s>')
         unigram_list.remove('</s>')
         wholeWords = 0
         unigram_counts = []
+
         for word in dictionary:
             if word != '<s>' and word != '</s>':
                 wholeWords += dictionary[word]
         for unigram in unigram_list:
-            unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
+                unigram_counts.append((self.calculate_probability(dictionary[unigram], wholeWords, len(dictionary)-2)))
         for i in range(0,len(unigram_list)):
-            print(unigram_list[i], "|", unigram_counts[i])
+            # print(unigram_list[i], "|", unigram_counts[i])
+            temp = str(unigram_counts[i])
+            unigram_counts[i] = float(temp[0:6])
             unigram_out.write(unigram_list[i]+ "|"+ str(unigram_counts[i])+ "\n")
-        print("\n\n")
+        # print("\n\n")
 
 
     def biagram(self, text, dictionary, label_words, biagram_out_path):
-        print("************* biagram ************")
+        # print("************* biagram ************")
         biagram_out = open(biagram_out_path, 'w', encoding="utf-8")
         biagram_list = self.ngram_words(text, 2)
         biagram_list_distinct = []
@@ -65,13 +68,15 @@ class Ngram_manager():
                     if label_words[i] == words[0] and label_words[i+1] == words[1]:
                         counter +=1
                 biagram_counts = self.calculate_probability(counter, dictionary[words[0]], len(dictionary)-2)
-                print(words[0], "|", words[1], "|", biagram_counts)
+                temp = str(biagram_counts)
+                biagram_counts = float(temp[0:6])
+                # print(words[0], "|", words[1], "|", biagram_counts)
                 biagram_out.write(words[0]+ "|"+ words[1]+ "|"+ str(biagram_counts)+ "\n")
-        print("\n\n")
+        # print("\n\n")
 
 
     def triagram(self, text, dictionary, label_words, trigram_out_path):
-        print("************* trigram ************")
+        # print("************* trigram ************")
         trigram_out = open(trigram_out_path, 'w', encoding="utf-8")
         trigram_list = self.ngram_words(text, 3)
         trigram_list_distinct = []
@@ -90,18 +95,18 @@ class Ngram_manager():
                         if label_words[i+2] == words[2]:
                             three_counter += 1
                 trigram_counts = self.calculate_probability(three_counter, two_counter, len(dictionary)-2)
-                print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
+                temp = str(trigram_counts)
+                trigram_counts = float(temp[0:6])
+                # print(words[0], "|", words[1], "|", words[2], "|", trigram_counts)
                 trigram_out.write(words[0]+ "|"+ words[1]+ "|"+ words[2]+ "|"+ str(trigram_counts)+ "\n")
-        print("\n\n")
-        
+        # print("\n\n")
 
 
 class Pop_manager():
     pop_text = '<s> '
-    pop_dict = {}
+    pop_dict = {'UNK':0}
     pop_words = []
     ngram_manager = Ngram_manager()
-
 
     def __init__(self):
         self.read_files()
@@ -131,7 +136,11 @@ class Pop_manager():
                     self.pop_dict[word] += 1
                 else:
                     self.pop_dict[word] = 1
-    
+                        
+        self.pop_text = ' '
+        for word in self.pop_words:
+            self.pop_text += word + " "
+
 
     def ngram_handler(self):
         unigram_out_path = "../pop/1gram.lm"
@@ -142,10 +151,9 @@ class Pop_manager():
         self.ngram_manager.triagram(self.pop_text, self.pop_dict, self.pop_words, trigram_out_path)
 
 
-
 class Traditional_manager():
     traditional_text = '<s> '
-    traditional_dict = {}
+    traditional_dict = {'UNK':0}
     traditional_words = []
     ngram_manager = Ngram_manager()
 
@@ -178,7 +186,7 @@ class Traditional_manager():
                     self.traditional_dict[word] += 1
                 else:
                     self.traditional_dict[word] = 1
-    
+
 
     def ngram_handler(self):
         unigram_out_path = "../traditional/1gram.lm"
@@ -187,7 +195,6 @@ class Traditional_manager():
         self.ngram_manager.unigram(self.traditional_text, self.traditional_dict, unigram_out_path)
         self.ngram_manager.biagram(self.traditional_text, self.traditional_dict, self.traditional_words, biagram_out_path)
         self.ngram_manager.triagram(self.traditional_text, self.traditional_dict, self.traditional_words, trigram_out_path)
-
 
 
 pop_manager = Pop_manager()
