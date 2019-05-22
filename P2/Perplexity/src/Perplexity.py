@@ -91,6 +91,7 @@ def tri_perplexity(pop_words_distinct, biagram):
         print(triagram_perplexity)
 
 
+''' Calculate perplexity for train data of pop using all ngrams'''
 pop_words = read_text("../../SplitData/train/pop/*.txt")
 unigram = read_ngrams(1)
 biagram = read_ngrams(2)
@@ -103,6 +104,7 @@ tri_perplexity(pop_words_UNK, triagram)
 print()
 
 
+''' Calculate perplexity for test data of pop using all ngrams'''
 pop_words = read_text("../../SplitData/test/pop/*.txt")
 unigram = read_ngrams(1)
 biagram = read_ngrams(2)
@@ -115,6 +117,7 @@ tri_perplexity(pop_words_UNK, triagram)
 print()
 
 
+''' Calculate perplexity for train data of traditional using all ngrams'''
 pop_words = read_text("../../SplitData/train/traditional/*.txt")
 unigram = read_ngrams(1)
 biagram = read_ngrams(2)
@@ -127,6 +130,7 @@ tri_perplexity(pop_words_UNK, triagram)
 print()
 
 
+''' Calculate perplexity for test data of traditional using all ngrams'''
 pop_words = read_text("../../SplitData/test/traditional/*.txt")
 unigram = read_ngrams(1)
 biagram = read_ngrams(2)
