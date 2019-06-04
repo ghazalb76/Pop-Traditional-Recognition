@@ -99,18 +99,24 @@ def read_test():
                 traditional_measures['tn'] += 1
                 pop_measures['tp'] += 1
 
+    pop_accuracy = ((pop_measures['tp'] + pop_measures['tn'])/ (pop_measures['tp'] + pop_measures['tn'] + pop_measures['fp'] + pop_measures['fn']))
     pop_precision = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fp'])
     pop_recall = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fn'])
     pop_F1 = (2 * pop_precision * pop_recall) / (pop_precision + pop_recall)
-    print ('Pop Precision : ', pop_precision*100)
-    print ('Pop Recall : ', pop_recall*100)
-    print ('Pop F1 : ', pop_F1*100)
+    print(pop_measures['tp'], pop_measures['tn'], pop_measures['fp'], pop_measures['fn'])
+    print ('Pop accuracy percentage : ', pop_accuracy*100)
+    print ('Pop Precision percentage : ', pop_precision*100)
+    print ('Pop Recall percentage : ', pop_recall*100)
+    print ('Pop F1 percentage : ', pop_F1*100)
 
     print()
 
+    traditional_accuracy = ((traditional_measures['tp'] + traditional_measures['tn'])/ (traditional_measures['tp'] + traditional_measures['tn'] + traditional_measures['fp'] + traditional_measures['fn']))
     traditional_precision = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['fp'])
     traditional_recall = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['fn'])
     traditional_F1 = (2 * traditional_precision * traditional_recall) / (traditional_precision + traditional_recall)
+    print(traditional_measures['tp'], traditional_measures['tn'], traditional_measures['fp'], traditional_measures['fn'])
+    print ('Traditional accuracy percentage : ', traditional_accuracy*100)
     print ('Traditional Precision : ', traditional_precision*100)
     print ('Traditional Recall : ', traditional_recall*100)
     print ('Traditional F1 : ', traditional_F1*100)
