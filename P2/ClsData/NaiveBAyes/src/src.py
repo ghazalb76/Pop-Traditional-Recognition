@@ -79,33 +79,33 @@ def read_test():
                 else:
                     traditional_prob += traditional_freq_dict['UNK']
         out_text += ' pop '+ str(pop_prob) +' traditional '+ str(traditional_prob)
-        
-        if traditional_prob > pop_prob:
-            if line[0] == 'traditional' :
+
+        if pop_prob > traditional_prob:
+            if line[0] == 'pop' :
                 # print('traditional --> traditional')
-                traditional_measures['tp'] += 1
-                pop_measures['tn'] += 1
+                pop_measures['tp'] += 1
+                traditional_prob['tn'] += 1
             else :
                 # print('pop --> traditional')
-                traditional_measures['fp'] += 1
-                pop_measures['fn'] += 1
+                pop_measures['fp'] += 1
+                traditional_prob['fn'] += 1
         else :
             if line[0] == 'traditional':
                 # print('traditional --> pop')
-                traditional_measures['fn'] += 1
-                pop_measures['fp'] += 1
+                pop_measures['fn'] += 1
+                traditional_prob['fp'] += 1
             else :
                 # print('pop --> pop')
-                traditional_measures['tn'] += 1
-                pop_measures['tp'] += 1
+                pop_measures['tn'] += 1
+                traditional_prob['tp'] += 1
 
     pop_precision = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fp'])
-    pop_recall = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['tn'])
+    pop_recall = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fn'])
     print ('Pop Precision : ', pop_precision*100)
     print ('Pop Recall : ', pop_recall*100)
     
     traditional_precision = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['fp'])
-    traditional_recall = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['tn'])
+    traditional_recall = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['fn'])
     print ('Rap Precision : ', traditional_precision*100)
     print ('Rap Recall : ', traditional_recall*100)
 
