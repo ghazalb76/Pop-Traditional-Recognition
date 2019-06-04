@@ -3,7 +3,7 @@ import math
 
 def stopwords():
     stopword_list = []
-    unImportant = open("../../../WordCloud/stopwords.txt", 'r', encoding="utf-8")
+    unImportant = open("../../WordCloud/stopwords.txt", 'r', encoding="utf-8")
     for line in unImportant.readlines():
             stopword_list.append(line)
     for sentence in stopword_list:
@@ -12,13 +12,13 @@ def stopwords():
 
 
 def train():
-    train_file = open("../../train.txt", 'r', encoding="utf-8")
+    train_file = open("../../ClsData/train.txt", 'r', encoding="utf-8")
     text = ""
     for line in train_file:
         line = line.rstrip()
         line = line.split(' ')
         for word in line:
-            if line[0] == "pop" and word != "pop" and word not in stopword_list and word != "\n":
+            if line[0] == 'pop' and word != 'pop' and word not in stopword_list and word != "\n":
                 if word in pop_dict:
                     pop_dict[word] += 1
                 else:
@@ -28,7 +28,7 @@ def train():
                 else:
                     total_words_dict[word] = 1
 
-            elif line[0] == "traditional" and word != "traditional" and word not in stopword_list:
+            elif line[0] == 'traditional' and word != 'traditional' and word not in stopword_list:
                 if word in traditional_dict:
                     traditional_dict[word] += 1
                 else:
@@ -60,7 +60,8 @@ def naive_algo():
 
 def test():
     out_text = ''
-    test_file = open("../../test.txt", 'r', encoding="utf-8")
+    measure_text = ''
+    test_file = open("../../ClsData/test.txt", 'r', encoding="utf-8")
     for line in test_file:
         pop_prob = 0
         traditional_prob = 0
@@ -100,7 +101,7 @@ def test():
                 pop_measures['tp'] += 1
 
     ''' Pop measures '''
-    # print(pop_measures['tp'], pop_measures['tn'], pop_measures['fp'], pop_measures['fn'])
+    print(pop_measures['tp'], pop_measures['tn'], pop_measures['fp'], pop_measures['fn'])
     pop_accuracy = ((pop_measures['tp'] + pop_measures['tn'])/ (pop_measures['tp'] + pop_measures['tn'] + pop_measures['fp'] + pop_measures['fn']))
     pop_precision = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fp'])
     pop_recall = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fn'])
@@ -109,8 +110,13 @@ def test():
     print ('Pop Precision percentage : ', pop_precision*100)
     print ('Pop Recall percentage : ', pop_recall*100)
     print ('Pop F1 percentage : ', pop_F1*100)
+    measure_text += ('Pop accuracy percentage : ' + str(pop_accuracy*100) + '\n' +
+                    'Pop Precision percentage : ' + str(pop_precision*100) + '\n' +
+                    'Pop Recall percentage : ' + str(pop_recall*100) + '\n' +
+                    'Pop F1 percentage : ' + str(pop_F1*100) + '\n\n')
 
     print()
+
 
     ''' Traditional measures '''
     # print(traditional_measures['tp'], traditional_measures['tn'], traditional_measures['fp'], traditional_measures['fn'])
@@ -122,8 +128,13 @@ def test():
     print ('Traditional Precision : ', traditional_precision*100)
     print ('Traditional Recall : ', traditional_recall*100)
     print ('Traditional F1 : ', traditional_F1*100)
+    measure_text += ('Traditional accuracy percentage : ' + str(traditional_accuracy*100) + '\n' +
+                    'Traditional Precision : ' + str(traditional_precision*100) + '\n' +
+                    'Traditional Recall : ' + str(traditional_recall*100) + '\n' +
+                    'Traditional F1 : ' + str(traditional_F1*100))
 
-    return out_text
+
+    return out_text, measure_text
 
 
 total_words_dict = {}
@@ -140,8 +151,12 @@ traditional_measures = {'tp':0, 'tn':0, 'fp':0, 'fn':0}
 stopword_list = stopwords()
 train()
 naive_algo()
-out_text = test()
+out_text, measure_text = test()
 
 test_out = open("Test.output.txt", 'w', encoding="utf-8")
 test_out.write(out_text)
+
+test_out_report = open("Test.report.txt", 'w', encoding="utf-8")
+test_out_report.write(measure_text)
+
 

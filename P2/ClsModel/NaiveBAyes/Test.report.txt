@@ -1,0 +1,9 @@
+Pop accuracy percentage : 92.95154185022027
+Pop Precision percentage : 95.01915708812261
+Pop Recall percentage : 92.88389513108615
+Pop F1 percentage : 93.93939393939394
+
+Traditional accuracy percentage : 92.95154185022027
+Traditional Precision : 90.15544041450777
+Traditional Recall : 93.04812834224599
+Traditional F1 : 91.57894736842105
