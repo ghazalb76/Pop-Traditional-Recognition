@@ -1,5 +1,16 @@
 import math
 
+
+def read_stopwords():
+    stopword_list = []
+    unImportant = open("../../../WordCloud/stopwords.txt", 'r', encoding="utf-8")
+    for line in unImportant.readlines():
+            stopword_list.append(line)
+    for sentence in stopword_list:
+            stopword_list = sentence.split(' ')
+    return stopword_list
+
+
 def read_train():
     train_file = open("../../train.txt", 'r', encoding="utf-8")
     text = ""
@@ -68,24 +79,52 @@ def read_test():
                 else:
                     traditional_prob += traditional_freq_dict['UNK']
         out_text += ' pop '+ str(pop_prob) +' traditional '+ str(traditional_prob)
+        
+        if traditional_prob > pop_prob:
+            if line[0] == 'traditional' :
+                # print('traditional --> traditional')
+                traditional_measures['tp'] += 1
+                pop_measures['tn'] += 1
+            else :
+                # print('pop --> traditional')
+                traditional_measures['fp'] += 1
+                pop_measures['fn'] += 1
+        else :
+            if line[0] == 'traditional':
+                # print('traditional --> pop')
+                traditional_measures['fn'] += 1
+                pop_measures['fp'] += 1
+            else :
+                # print('pop --> pop')
+                traditional_measures['tn'] += 1
+                pop_measures['tp'] += 1
+
+    pop_precision = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['fp'])
+    pop_recall = pop_measures['tp'] / (pop_measures['tp'] + pop_measures['tn'])
+    print ('Pop Precision : ', pop_precision*100)
+    print ('Pop Recall : ', pop_recall*100)
+    
+    traditional_precision = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['fp'])
+    traditional_recall = traditional_measures['tp'] / (traditional_measures['tp'] + traditional_measures['tn'])
+    print ('Rap Precision : ', traditional_precision*100)
+    print ('Rap Recall : ', traditional_recall*100)
+
+
     return out_text
 
 
+total_words_dict = {}
+
 pop_dict = {}
+traditional_dict = {}
+
 pop_freq_dict = {}
 traditional_freq_dict = {}
 
-traditional_dict = {}
-total_words_dict = {}
+pop_measures = {'tp':0, 'tn':0, 'fp':0, 'fn':0}
+traditional_measures = {'tp':0, 'tn':0, 'fp':0, 'fn':0}
 
-stopword_list = []
-unImportant = open("../../../WordCloud/stopwords.txt", 'r', encoding="utf-8")
-
-for line in unImportant.readlines():
-        stopword_list.append(line)
-for sentence in stopword_list:
-        stopword_list = sentence.split(' ')
-
+stopword_list = read_stopwords()
 read_train()
 naive_algo()
 out_text = read_test()
