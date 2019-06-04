@@ -48,6 +48,7 @@ def naive_algo():
 
 
 def read_test():
+    out_text = ''
     test_file = open("test.txt", 'r', encoding="utf-8")
     for line in test_file:
         pop_prob = 0
@@ -66,7 +67,8 @@ def read_test():
                     traditional_prob += traditional_freq_dict[word]
                 else:
                     traditional_prob += traditional_freq_dict['UNK']
-        print('c1', pop_prob, 'c2', traditional_prob)
+        out_text += ' c1 '+ str(pop_prob) +' c2 '+ str(traditional_prob)
+    return out_text
 
 
 pop_dict = {}
@@ -86,4 +88,8 @@ for sentence in stopword_list:
 
 read_train()
 naive_algo()
-read_test()
+out_text = read_test()
+
+test_out = open("TestCase.output.txt", 'w', encoding="utf-8")
+test_out.write(out_text)
+
